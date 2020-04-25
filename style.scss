@@ -1,138 +1,31 @@
-$pink: #F2309B;
-$purple: #8C3286;
-$blue: #362C59;
-$gray: #F2F2F2;
+$shade: #aaa;
 
-@keyframes text-flicker-in-glow {
+html {
+  font-size: calc(12px + 1vw);
+}
+
+@keyframes colorchange {
   0% {
-    opacity: 0;
+    background: red;
   }
-  10% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  10.1% {
-    opacity: 1;
-    text-shadow: none;
-  }
-  10.2% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  20% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  20.1% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
-  }
-  20.6% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  30% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  30.1% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.45), 0 0 60px rgba(255, 255, 255, 0.25);
-  }
-  30.5% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.45), 0 0 60px rgba(255, 255, 255, 0.25);
-  }
-  30.6% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  45% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  45.1% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.45), 0 0 60px rgba(255, 255, 255, 0.25);
+  25% {
+    background: yellow;
   }
   50% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.45), 0 0 60px rgba(255, 255, 255, 0.25);
-  }
-  55% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.45), 0 0 60px rgba(255, 255, 255, 0.25);
-  }
-  55.1% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  57% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  57.1% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.55), 0 0 60px rgba(255, 255, 255, 0.35);
-  }
-  60% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.55), 0 0 60px rgba(255, 255, 255, 0.35);
-  }
-  60.1% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  65% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  65.1% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.55), 0 0 60px rgba(255, 255, 255, 0.35), 0 0 100px rgba(255, 255, 255, 0.1);
+    background: blue;
   }
   75% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.55), 0 0 60px rgba(255, 255, 255, 0.35), 0 0 100px rgba(255, 255, 255, 0.1);
-  }
-  75.1% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  77% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  77.1% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.55), 0 0 60px rgba(255, 255, 255, 0.4), 0 0 110px rgba(255, 255, 255, 0.2), 0 0 100px rgba(255, 255, 255, 0.1);
-  }
-  85% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.55), 0 0 60px rgba(255, 255, 255, 0.4), 0 0 110px rgba(255, 255, 255, 0.2), 0 0 100px rgba(255, 255, 255, 0.1);
-  }
-  85.1% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  86% {
-    opacity: 0;
-    text-shadow: none;
-  }
-  86.1% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 255, 255, 0.45), 0 0 110px rgba(255, 255, 255, 0.25), 0 0 100px rgba(255, 255, 255, 0.1);
+    background: green;
   }
   100% {
-    opacity: 1;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.6), 0 0 60px rgba(255, 255, 255, 0.45), 0 0 110px rgba(255, 255, 255, 0.25), 0 0 100px rgba(255, 255, 255, 0.1);
+    background: red;
   }
 }
 
-
 body {
-  font-size: 2vw;
-  background: $pink;
+  animation: colorchange 20s;
+  animation-iteration-count: infinite;
+  min-width: 400px;
 }
 
 body, button, input {
@@ -150,50 +43,63 @@ h1 {
 
 h2 {
   text-align: center;
-  padding: 2rem;
-  animation: text-flicker-in-glow 3s linear both;
+  padding: 1rem;
+  margin: 0;
 }
 
 .config {
-  margin: 2rem 0;
+  margin: 1rem 0;
 
   .group {
     display: flex;
-    padding: 1rem;
-    background-color: lighten($pink, 5%);
+    padding-left: 0.5rem;
+    background-color: rgba($shade, 0.2);
 
     &:nth-child(odd) {
-      background-color: lighten($pink, 10%);
+      background-color: rgba($shade, 0.3);
     }
 
     label {
-      width: 20rem;
-      font-size: 1.5rem;
-      line-height: 2.5rem;
+      width: 10rem;
+      font-size: 0.8rem;
+      line-height: 2rem;
     }
 
     input {
       display: block;
       width: 100%;
-      padding: 0.25rem 0.5rem;
+      padding: 0 0.5rem;
       border: 0;
-      font-size: 1.5rem;
+      font-size: 0.8rem;
       line-height: 2rem;
-      background: rgba($gray, 0.7);
+      background: rgba($shade, 0.5);
+      outline: none;
+
+      &:hover {
+        background: rgba($shade, 0.8);
+      }
+
+      &:focus {
+        background-color: white;
+      }
     }
   }
 }
 
 .actions {
+  position: fixed;
+  width: 100%;
+  max-width: 800px;
+  bottom: 1rem;
   display: flex;
   justify-content: space-between;
 
   button {
     border: none;
-    padding: 2rem;
-    background: $blue;
+    padding: 1rem;
+    background: rgba(black, 0.5);
     color: white;
-    font-size: 2rem;
+    font-size: 0.8rem;
     cursor: pointer;
 
     &:disabled {
@@ -206,4 +112,33 @@ h2 {
   }
 }
 
+.timer {
+  margin-bottom: 1rem;
 
+  & > div {
+    position: relative;
+    text-align: center;
+    background-color: rgba($shade, 0.2);
+    padding: 1rem;
+
+    &.action {
+      font-size: 2rem;
+    }
+
+    &.time {
+      font-size: 2.5rem;
+    }
+
+    &:nth-child(odd) {
+      background-color: rgba($shade, 0.3);
+    }
+
+    .label {
+      font-size: 0.7rem;
+      opacity: 0.5;
+      position: absolute;
+      top: 0.25rem;
+      left: 0.25rem;
+    }
+  }
+}
