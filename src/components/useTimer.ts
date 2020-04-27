@@ -133,6 +133,13 @@ function reducer(state, action) {
         };
       }
 
+      if (
+        state.actions[state.actionCounter].mode === Mode.ACTIVE &&
+        state.actionTime === Math.round(state.actions[state.actionCounter].duration / 2)
+      ) {
+        beep( 300, 700);
+      }
+
       if (state.actionTime < 4) {
         beep(
           active ? 300 : 200,
