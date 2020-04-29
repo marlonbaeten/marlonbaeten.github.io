@@ -7,5 +7,5 @@ git checkout -b build
 yarn build
 git add .
 git commit -m "Build"
-git push -f
+git push --force origin build
 git checkout master
