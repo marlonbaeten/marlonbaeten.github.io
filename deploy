@@ -3,11 +3,10 @@
 git add -A .
 git commit
 git push
-git branch -d master
+git branch -D master
 git checkout -b master
 yarn build
 git add .
 git commit -m "Build"
-git push --force origin build
-rm -rf build
+git push --force origin master
 git checkout source
