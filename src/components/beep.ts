@@ -1,3 +1,4 @@
+const AudioContext = window.AudioContext || window.webkitAudioContext;
 const ctx = new AudioContext();
 
 export function beep(duration: number = 300, frequency: number = 400, offset: number = 0) {

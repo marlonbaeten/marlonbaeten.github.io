@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppState, Mode } from './useTimer';
 import { beep } from './beep';
-import { Howl, Howler } from 'howler';
+import { Howl } from 'howler';
 
 const karamba = new Howl({
   src: require('../audio/karamba.mp4'),
