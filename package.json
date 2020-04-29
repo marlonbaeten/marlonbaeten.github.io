@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html --no-source-maps --out-dir ./"
+    "build": "parcel build src/index.html --no-source-maps --out-dir build"
   },
   "dependencies": {
     "howler": "^2.1.3",
