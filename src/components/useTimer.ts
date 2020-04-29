@@ -1,5 +1,4 @@
 import { useReducer, useEffect, useRef, Dispatch } from 'react';
-import { beep } from './beep';
 
 const initialState = {
   active: 20,
@@ -7,6 +6,8 @@ const initialState = {
   sets: 20,
   rest: 240,
   rounds: 3,
+  totalTime: 0,
+  totalCountdown: 0,
   running: false,
   done: true,
   actionCounter: 0,
@@ -45,6 +46,8 @@ export interface AppState {
   done: boolean,
   actionCounter: number,
   actionTime: number,
+  totalTime: number,
+  totalCountdown: number,
   actions: Action[],
 }
 
@@ -88,11 +91,16 @@ function reducer(state, action) {
           });
         }
       }
+
+      const totalTime = actions.reduce((sum, action) => sum+action.duration, 0);
+
       return {
         ...state,
         running: true,
         done: false,
         actions,
+        totalTime,
+        totalCountdown: totalTime,
         actionTime: actions[0].duration - 1,
       };
     case ActionType.PAUSE:
@@ -109,13 +117,7 @@ function reducer(state, action) {
         actionTime: 0,
       };
     case ActionType.TICK:
-      const active = state.actions[state.actionCounter].mode === Mode.ACTIVE;
-
       if (state.actionTime === 0) {
-        beep(
-          active ? 1000 : 600,
-          active ? 200 : 500,
-        );
         const actionCounter = state.actionCounter + 1;
 
         if (actionCounter >= state.actions.length) {
@@ -123,6 +125,7 @@ function reducer(state, action) {
             ...state,
             running: false,
             done: true,
+            totalCountdown: 0,
           };
         }
 
@@ -130,35 +133,23 @@ function reducer(state, action) {
           ...state,
           actionCounter,
           actionTime: state.actions[actionCounter].duration - 1,
+          totalCountdown: state.totalCountdown - 1,
         };
-      }
-
-      if (
-        state.actions[state.actionCounter].mode === Mode.ACTIVE &&
-        state.actionTime === Math.round(state.actions[state.actionCounter].duration / 2)
-      ) {
-        beep( 300, 700);
-      }
-
-      if (state.actionTime < 4) {
-        beep(
-          active ? 300 : 200,
-          active ? 300 : 400,
-        );
       }
 
       return {
         ...state,
         actionTime: state.actionTime - 1,
+        totalCountdown: state.totalCountdown - 1,
       };
     default:
       throw new Error();
   }
 }
 
-export default function useTimer(): { state: AppState, dispatch: Dispatch } {
-  const [state, dispatch] = useReducer<AppState>(reducer, initialState);
-  const timerRef = useRef();
+export default function useTimer(): { state: AppState, dispatch: Dispatch<object> } {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const timerRef = useRef<number>();
 
   useEffect(() => {
     if (state.running) {

@@ -1,15 +1,18 @@
-$shade: #aaa;
+$shade: white;
 
 html {
-  font-size: calc(12px + 1.25vw);
+  font-size: calc(12px + 0.6vw + 0.6vh);
 }
 
 @keyframes colorchange {
   0% {
-    background: #FE5F75;
+    background: #E05366;
+  }
+  50% {
+    background: #FF7D52;
   }
   100% {
-    background: #95DCB4;
+    background: #89C944;
   }
 }
 
@@ -25,10 +28,14 @@ body, button, input {
   font-family: 'Press Start 2P', cursive;
 }
 
+div {
+  box-sizing: border-box;
+}
+
 .page {
   width: 100%;
-  height: 100%;
-  background-color: rebeccapurple;
+  min-height: 100%;
+  background-color: #A965FC;
   animation-iteration-count: infinite;
 }
 
@@ -58,6 +65,7 @@ h2 {
     display: flex;
     padding-left: 0.5rem;
     background-color: rgba($shade, 0.2);
+    background-blend-mode: multiply;
 
     &:nth-child(odd) {
       background-color: rgba($shade, 0.3);
@@ -91,10 +99,6 @@ h2 {
 }
 
 .actions {
-  position: fixed;
-  width: calc(100% - 2rem);
-  max-width: 1200px;
-  bottom: 1rem;
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
@@ -120,30 +124,34 @@ h2 {
 .timer {
   margin-bottom: 1rem;
 
-  & > div {
-    position: relative;
-    text-align: center;
-    background-color: rgba($shade, 0.2);
-    padding: 1rem;
+  .row {
+    display: flex;
+    flex-direction: row;
+    background-color: rgba($shade, 0.1);
 
-    &.action {
-      font-size: 2rem;
-    }
+    & > div {
+      flex: 1;
+      position: relative;
+      text-align: center;
+      padding: 2rem 1rem 1rem 1rem;
+      margin: 0.25rem;
+      background-color: rgba($shade, 0.1);
 
-    &.time {
-      font-size: 2.5rem;
-    }
+      &.action {
+        font-size: 2rem;
+      }
 
-    &:nth-child(odd) {
-      background-color: rgba($shade, 0.3);
-    }
+      &.time {
+        font-size: 2.5rem;
+      }
 
-    .label {
-      font-size: 0.7rem;
-      opacity: 0.5;
-      position: absolute;
-      top: 0.25rem;
-      left: 0.25rem;
+      .label {
+        font-size: 0.7rem;
+        opacity: 0.5;
+        position: absolute;
+        top: 0.25rem;
+        left: 0.25rem;
+      }
     }
   }
 }

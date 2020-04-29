@@ -1,14 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 
 // @ts-ignore
 const pad = (num, count = 2) => String(num).padStart(count, '0');
 
-export default function Countdown({ running, duration }) {
+export default function Countdown({ duration }) {
   const minutes = pad(Math.floor(duration / 60));
 
   return (
-    <div className="countdown">
+    <span className="countdown">
       {minutes}:{pad(duration % 60)}
-    </div>
+    </span>
   );
 }
