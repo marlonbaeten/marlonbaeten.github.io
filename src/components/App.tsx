@@ -37,6 +37,13 @@ const App = () => {
                 {action.mode === Mode.PASSIVE && 'Chill 😅'}
               </div>
             </div>
+            {action.exercise && (
+              <div className="row">
+                <div className="action">
+                  {action.exercise}
+                </div>
+              </div>
+            )}
             <div className="row">
               <div className="time">
                 <span className="label">Time</span>

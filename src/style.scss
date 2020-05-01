@@ -24,7 +24,7 @@ html, body, #root {
   padding: 0;
 }
 
-body, button, input {
+body, button, input, textarea {
   font-family: 'Press Start 2P', cursive;
 }
 
@@ -63,7 +63,6 @@ h2 {
 
   .group {
     display: flex;
-    padding-left: 0.5rem;
     background-color: rgba($shade, 0.2);
     background-blend-mode: multiply;
 
@@ -72,14 +71,15 @@ h2 {
     }
 
     label {
+      padding-left: 0.5rem;
       width: 10rem;
       font-size: 0.8rem;
       line-height: 2rem;
     }
 
     input {
+      flex: 1;
       display: block;
-      width: 100%;
       padding: 0 0.5rem;
       border: 0;
       font-size: 0.8rem;
@@ -93,6 +93,27 @@ h2 {
 
       &:focus {
         background-color: white;
+      }
+    }
+
+    textarea {
+      background: rgba($shade, 0.7);
+      margin: 0;
+      border: 0;
+      padding: 0.5rem;
+      width: 100%;
+      font-size: 0.7rem;
+      line-height: 1rem;
+    }
+
+    button {
+      background-color: rgba($shade, 0.9);
+      border: 0;
+      padding: 0.25rem 0.5rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba($shade, 0.8);
       }
     }
   }

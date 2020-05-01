@@ -44,6 +44,7 @@ export enum Mode {
 
 export interface Action {
   mode: Mode,
+  exercise?: string,
   duration: number,
   set: number,
   round: number
@@ -62,6 +63,7 @@ export interface AppState {
   totalTime: number,
   totalCountdown: number,
   actions: Action[],
+  exercises: string[],
 }
 
 function reducer(state, action) {
@@ -85,12 +87,14 @@ function reducer(state, action) {
           actions.push({
             mode: Mode.PASSIVE,
             duration: state.passive,
+            exercise: state.exercises[set - 1],
             set,
             round,
           });
           actions.push({
             mode: Mode.ACTIVE,
             duration: state.active,
+            exercise: state.exercises[set - 1],
             set,
             round,
           });
@@ -169,6 +173,7 @@ export default function useTimer(): { state: AppState, dispatch: Dispatch<object
     sets: state.sets,
     rest: state.rest,
     rounds: state.rounds,
+    exercises: state.exercises,
   };
   const persistString = JSON.stringify(persist);
 

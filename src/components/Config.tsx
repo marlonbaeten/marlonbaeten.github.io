@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ActionType } from './useTimer';
 
 export default function Config({ state, dispatch }) {
+  const [showExercices, setShowExercices] = useState(state.exercises.length > 0);
+
   return (
     <div className="config">
       <div className="group">
@@ -45,7 +47,37 @@ export default function Config({ state, dispatch }) {
             })
           }}
         />
+        <button onClick={() => {
+          if (!showExercices) {
+            if (state.exercises.length === 0) {
+              dispatch({
+                type: ActionType.UPDATE,
+                exercises: Array.from(Array(state.sets)).map((e, index) => `Exercise ${index + 1}`),
+              });
+            }
+          }
+
+          setShowExercices(!showExercices);
+        }}>
+          Exercices
+        </button>
       </div>
+      {showExercices && (
+        <div className="group">
+          <textarea
+            rows={10}
+            value={state.exercises.join("\n")}
+            onChange={(e) => {
+              const exercises = e.target.value.trim().split("\n");
+              dispatch({
+                type: ActionType.UPDATE,
+                sets: exercises.length,
+                exercises,
+              })
+            }}
+          />
+        </div>
+      )}
       <div className="group">
         <label htmlFor="rest">Rest</label>
         <input
