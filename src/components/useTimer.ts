@@ -1,9 +1,21 @@
 import { useReducer, useEffect, useRef, Dispatch } from 'react';
 
+const getPersistedState = () => {
+  if (window.localStorage.getItem('state')) {
+    const stateJSON = window.localStorage.getItem('state');
+
+    return JSON.parse(stateJSON);
+  }
+
+  return {};
+};
+
+
 const initialState = {
   active: 20,
   passive: 10,
   sets: 20,
+  exercises: [],
   rest: 240,
   rounds: 3,
   totalTime: 0,
@@ -13,6 +25,7 @@ const initialState = {
   actionCounter: 0,
   actionTime: 0,
   actions: [],
+  ...getPersistedState(),
 };
 
 export enum ActionType {
@@ -150,6 +163,18 @@ function reducer(state, action) {
 export default function useTimer(): { state: AppState, dispatch: Dispatch<object> } {
   const [state, dispatch] = useReducer(reducer, initialState);
   const timerRef = useRef<number>();
+  const persist = {
+    active: state.active,
+    passive: state.passive,
+    sets: state.sets,
+    rest: state.rest,
+    rounds: state.rounds,
+  };
+  const persistString = JSON.stringify(persist);
+
+  useEffect(() => {
+    window.localStorage.setItem('state', persistString);
+  }, [persistString]);
 
   useEffect(() => {
     if (state.running) {

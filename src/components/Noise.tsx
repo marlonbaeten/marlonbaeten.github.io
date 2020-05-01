@@ -68,7 +68,7 @@ function shuffleArray(array) {
 }
 
 export default function Noise({ state }: { state: AppState }) {
-  if (state.actions.length === 0) {
+  if (state.actions.length === 0 || !state.running) {
     return null;
   }
 
@@ -96,7 +96,7 @@ export default function Noise({ state }: { state: AppState }) {
   if (
     active &&
     state.actionTime === 3 &&
-    Math.random() > 0.5
+    Math.random() > 0.75
   ) {
     if (Math.random() > 0.5) {
       rust.play();
@@ -129,7 +129,7 @@ export default function Noise({ state }: { state: AppState }) {
     state.actionTime > 5 &&
     state.actionTime < current.duration - 2 &&
     !playing() &&
-    Math.random() > 0.95
+    Math.random() > 0.97
   ) {
     shuffleArray(currentMotivation);
     currentMotivation.pop().play();
@@ -141,10 +141,9 @@ export default function Noise({ state }: { state: AppState }) {
 
   if (
     active &&
-    state.actionTime === Math.round(current.duration / 2) - 1 &&
-    !playing()
+    state.actionTime === (Math.round(current.duration / 2) + 2)
   ) {
-    beep(300, 700, 2000);
+    beep(200, 700, 2000);
   }
 
   return null;

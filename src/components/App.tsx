@@ -26,15 +26,15 @@ const App = () => {
   return (
     <div className="page" style={style}>
       <div className="container">
-        <h1>Robo Mark 0.1</h1>
+        <h1>Robo Mark</h1>
         <Noise state={state} />
         {(state.running || !state.done) ? (
           <div className={`timer ${action.mode === Mode.ACTIVE && 'active'} ${action.mode === Mode.REST && 'rest'} ${action.mode === Mode.PASSIVE && 'passive'}`}>
             <div className="row">
               <div className="action">
-                {action.mode === Mode.ACTIVE && 'Work!'}
-                {action.mode === Mode.REST && '... Rest ..'}
-                {action.mode === Mode.PASSIVE && 'Chill'}
+                {action.mode === Mode.ACTIVE && 'Work 🏋️‍♀️'}
+                {action.mode === Mode.REST && 'Rest 😴'}
+                {action.mode === Mode.PASSIVE && 'Chill 😅'}
               </div>
             </div>
             <div className="row">
