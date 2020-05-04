@@ -99,9 +99,9 @@ export default function Noise({ state }: { state: AppState }) {
   const current = state.actions[state.actionCounter];
   const active = current.mode === Mode.ACTIVE;
 
-  if (state.actionTime === 0) {
+  if (state.actionTime === 0 && current.mode !== Mode.REST) {
     beep(
-      active ? 800 : 600,
+      active ? 600 : 400,
       active ? 200 : 500,
     );
     return null;
@@ -141,11 +141,18 @@ export default function Noise({ state }: { state: AppState }) {
     return null;
   }
 
-  if (state.actionTime < 4 && !playing()) {
+  if (state.actionTime < 4 && !playing() && current.mode !== Mode.REST) {
     beep(
-      active ? 300 : 200,
+      150,
       active ? 300 : 400,
     );
+  }
+
+  if ((state.actionTime === 4 || state.actionTime === 0) && !playing() && current.mode === Mode.REST) {
+    beep(100, 300, 0);
+    beep(100, 300, 300);
+    beep(100, 300, 600);
+    beep(100, 300, 900);
   }
 
   if (
@@ -176,11 +183,13 @@ export default function Noise({ state }: { state: AppState }) {
     }
   }
 
+  // half time
   if (
     active &&
-    state.actionTime === (Math.round(current.duration / 2) + 2)
+    state.actionTime === (Math.round(current.duration / 2))
   ) {
-    beep(200, 700, 2000);
+    beep(50, 700, 0);
+    beep(50, 700, 400);
   }
 
   return null;
