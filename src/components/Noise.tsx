@@ -33,17 +33,37 @@ const helft = new Howl({
 const nog_even = new Howl({
   src: require('../audio/nog_even.mp4'),
 });
+const onderbroek = new Howl({
+  src: require('../audio/onderbroek.mp4'),
+});
+const yeah = new Howl({
+  src: require('../audio/yeah.mp4'),
+});
+const compliment = new Howl({
+  src: require('../audio/compliment.mp4'),
+});
+const goed_bezig = new Howl({
+  src: require('../audio/goed_bezig.mp4'),
+});
 
 const motivation = [
   aiaia,
   benga,
-  fat_lady,
   heftig,
   ik_ga_hard,
+  yeah,
+  compliment,
+  goed_bezig,
+];
+
+const weirdStuff = [
+  fat_lady,
   kut_training,
+  onderbroek,
 ];
 
 let currentMotivation = motivation.slice();
+let currentWeirdStuff = weirdStuff.slice();
 
 function playing() {
   return (
@@ -56,7 +76,11 @@ function playing() {
     fat_lady.playing() ||
     heftig.playing() ||
     ik_ga_hard.playing() ||
-    kut_training.playing()
+    kut_training.playing() ||
+    onderbroek.playing() ||
+    yeah.playing() ||
+    compliment.playing() ||
+    goed_bezig.playing()
   );
 }
 
@@ -129,13 +153,26 @@ export default function Noise({ state }: { state: AppState }) {
     state.actionTime > 5 &&
     state.actionTime < current.duration - 2 &&
     !playing() &&
-    Math.random() > 0.97
+    Math.random() > 0.96
   ) {
     shuffleArray(currentMotivation);
     currentMotivation.pop().play();
 
     if (currentMotivation.length === 0) {
       currentMotivation = motivation.slice();
+    }
+  } else if (
+    active &&
+    state.actionTime > 5 &&
+    state.actionTime < current.duration - 2 &&
+    !playing() &&
+    Math.random() > 0.98
+  ) {
+    shuffleArray(currentWeirdStuff);
+    currentWeirdStuff.pop().play();
+
+    if (currentWeirdStuff.length === 0) {
+      currentWeirdStuff = motivation.slice();
     }
   }
 

@@ -96,6 +96,14 @@ h2 {
       }
     }
 
+    ul {
+      margin: 0;
+      padding: 0.5rem;
+      font-size: 0.7rem;
+      line-height: 1rem;
+      list-style: none;
+    }
+
     textarea {
       background: rgba($shade, 0.7);
       margin: 0;
@@ -159,8 +167,11 @@ h2 {
       background-color: rgba($shade, 0.1);
       font-size: 1.5rem;
 
-      &.action {
-        font-size: 2rem;
+      &.next {
+        font-size: 1.2rem;
+        .name {
+          opacity: 0.5;
+        }
       }
 
       &.time {

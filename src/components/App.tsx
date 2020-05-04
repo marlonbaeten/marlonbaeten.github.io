@@ -26,24 +26,16 @@ const App = () => {
   return (
     <div className="page" style={style}>
       <div className="container">
-        <h1>Robo Mark</h1>
         <Noise state={state} />
         {(state.running || !state.done) ? (
           <div className={`timer ${action.mode === Mode.ACTIVE && 'active'} ${action.mode === Mode.REST && 'rest'} ${action.mode === Mode.PASSIVE && 'passive'}`}>
             <div className="row">
               <div className="action">
-                {action.mode === Mode.ACTIVE && 'Work 🏋️‍♀️'}
+                {action.mode === Mode.ACTIVE && (action.exercise || 'Work 🏋️‍♀️')}
                 {action.mode === Mode.REST && 'Rest 😴'}
-                {action.mode === Mode.PASSIVE && 'Chill 😅'}
+                {action.mode === Mode.PASSIVE && 'Rest 😅'}
               </div>
             </div>
-            {action.exercise && (
-              <div className="row">
-                <div className="action">
-                  {action.exercise}
-                </div>
-              </div>
-            )}
             <div className="row">
               <div className="time">
                 <span className="label">Time</span>
@@ -68,9 +60,20 @@ const App = () => {
                 </span>
               </div>
             </div>
+            {action.exercise && (
+              <div className="row">
+                <div className="next">
+                  <span className="label">Next up</span>
+                  <span className="name">
+                    {state.actions[state.actionCounter + 1] ? state.actions[state.actionCounter + 1].exercise : 'Done!'}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className="not-running">
+            <h1>Robo Mark</h1>
             <Config state={state} dispatch={dispatch} />
             {action && (<h2>Done!</h2>)}
             {!action && (<h2>Ready?!</h2>)}

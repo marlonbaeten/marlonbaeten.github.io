@@ -64,10 +64,24 @@ export default function Config({ state, dispatch }) {
       </div>
       {showExercices && (
         <div className="group">
+          <ul>
+            {state.exercises.map((e, index) => (
+              <li key={index}>{index + 1}</li>
+            ))}
+          </ul>
           <textarea
             rows={10}
             value={state.exercises.join("\n")}
+            style={{height: `${state.exercises.length}rem`}}
             onChange={(e) => {
+              const exercises = e.target.value.split("\n");
+              dispatch({
+                type: ActionType.UPDATE,
+                sets: exercises.length,
+                exercises,
+              })
+            }}
+            onBlur={(e) => {
               const exercises = e.target.value.trim().split("\n");
               dispatch({
                 type: ActionType.UPDATE,

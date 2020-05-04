@@ -66,6 +66,8 @@ export interface AppState {
   exercises: string[],
 }
 
+const timeSpec = /(\d{1,3})s\s(.*)/;
+
 function reducer(state, action) {
   switch (action.type) {
     case ActionType.UPDATE:
@@ -84,17 +86,24 @@ function reducer(state, action) {
       const actions: Action[] = [];
       for (let round = 1; round <= state.rounds; round += 1) {
         for (let set = 1; set <= state.sets; set += 1) {
+          let exercise = state.exercises[set - 1];
+          let duration = state.active;
+          if (timeSpec.test(exercise)) {
+            const result = timeSpec.exec(exercise);
+            duration = parseInt(result[1], 10);
+            exercise = result[2];
+          }
           actions.push({
             mode: Mode.PASSIVE,
             duration: state.passive,
-            exercise: state.exercises[set - 1],
+            exercise,
             set,
             round,
           });
           actions.push({
             mode: Mode.ACTIVE,
-            duration: state.active,
-            exercise: state.exercises[set - 1],
+            duration,
+            exercise,
             set,
             round,
           });
