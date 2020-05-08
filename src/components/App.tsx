@@ -31,9 +31,9 @@ const App = () => {
           <div className={`timer ${action.mode === Mode.ACTIVE && 'active'} ${action.mode === Mode.REST && 'rest'} ${action.mode === Mode.PASSIVE && 'passive'}`}>
             <div className="row">
               <div className="action">
-                {action.mode === Mode.ACTIVE && (action.exercise || 'Work 🏋️‍♀️')}
-                {action.mode === Mode.REST && 'Rest 😴'}
-                {action.mode === Mode.PASSIVE && 'Rest 😅'}
+                {action.mode === Mode.ACTIVE && (action.exercise || 'Active')}
+                {action.mode === Mode.PASSIVE && (`Next: ${action.exercise}` || 'Passive')}
+                {action.mode === Mode.REST && 'Rest'}
               </div>
             </div>
             <div className="row">

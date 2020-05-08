@@ -1,95 +1,8 @@
 import React from 'react';
 import { AppState, Mode } from './useTimer';
-import { beep } from './beep';
-import { Howl } from 'howler';
-
-const karamba = new Howl({
-  src: require('../audio/karamba.mp4'),
-});
-const aiaia = new Howl({
-  src: require('../audio/aiaia.mp4'),
-});
-const benga = new Howl({
-  src: require('../audio/benga.mp4'),
-});
-const fat_lady = new Howl({
-  src: require('../audio/fat_lady.mp4'),
-});
-const heftig = new Howl({
-  src: require('../audio/heftig.mp4'),
-});
-const ik_ga_hard = new Howl({
-  src: require('../audio/ik_ga_hard.mp4'),
-});
-const kut_training = new Howl({
-  src: require('../audio/kut_training.mp4'),
-});
-const rust = new Howl({
-  src: require('../audio/rust.mp4'),
-});
-const helft = new Howl({
-  src: require('../audio/helft.mp4'),
-});
-const nog_even = new Howl({
-  src: require('../audio/nog_even.mp4'),
-});
-const onderbroek = new Howl({
-  src: require('../audio/onderbroek.mp4'),
-});
-const yeah = new Howl({
-  src: require('../audio/yeah.mp4'),
-});
-const compliment = new Howl({
-  src: require('../audio/compliment.mp4'),
-});
-const goed_bezig = new Howl({
-  src: require('../audio/goed_bezig.mp4'),
-});
-
-const motivation = [
-  aiaia,
-  benga,
-  heftig,
-  ik_ga_hard,
-  yeah,
-  compliment,
-  goed_bezig,
-];
-
-const weirdStuff = [
-  fat_lady,
-  kut_training,
-  onderbroek,
-];
-
-let currentMotivation = motivation.slice();
-let currentWeirdStuff = weirdStuff.slice();
-
-function playing() {
-  return (
-    rust.playing() ||
-    helft.playing() ||
-    nog_even.playing() ||
-    karamba.playing() ||
-    aiaia.playing() ||
-    benga.playing() ||
-    fat_lady.playing() ||
-    heftig.playing() ||
-    ik_ga_hard.playing() ||
-    kut_training.playing() ||
-    onderbroek.playing() ||
-    yeah.playing() ||
-    compliment.playing() ||
-    goed_bezig.playing()
-  );
-}
-
-function shuffleArray(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
+import beep from './beep';
+import { motivation, Sound, SoundType } from './motivation';
+import speak from './speak';
 
 export default function Noise({ state }: { state: AppState }) {
   if (state.actions.length === 0 || !state.running) {
@@ -97,99 +10,100 @@ export default function Noise({ state }: { state: AppState }) {
   }
 
   const current = state.actions[state.actionCounter];
-  const active = current.mode === Mode.ACTIVE;
 
-  if (state.actionTime === 0 && current.mode !== Mode.REST) {
-    beep(
-      active ? 600 : 400,
-      active ? 200 : 500,
-    );
+  // start / end beep
+  if (state.actionTime === 0) {
+    if (current.mode === Mode.ACTIVE) {
+      beep.boop();
+    } else if (current.mode === Mode.PASSIVE) {
+      beep.beep();
+    } else if (current.mode === Mode.REST) {
+      beep.bobBobBob();
+    }
     return null;
   }
 
+  // halfway beep
   if (
-    active &&
-    state.actionTime === (Math.round(current.duration / 2) + 2) &&
-    Math.random() > 0.7 &&
-    current.duration >= 10 &&
-    !playing()
+    current.mode === Mode.ACTIVE &&
+    state.actionTime === Math.round(current.duration / 2)
   ) {
-    helft.play();
+    beep.peepPeep();
+    return null;
   }
 
+  // halfway motivation
   if (
-    active &&
+    current.mode === Mode.ACTIVE &&
+    state.actionTime === (Math.round(current.duration / 2) + 2) &&
+    Math.random() > 0.9 &&
+    current.duration >= 10 &&
+    !motivation.playing()
+  ) {
+    motivation.play(Sound.helft);
+    return null;
+  }
+
+  // next up tts
+  if (
+    current.mode === Mode.PASSIVE &&
+    current.duration > 5 &&
+    state.actionTime === current.duration - 2 &&
+    current.exercise
+  ) {
+    speak(`Next up: ${current.exercise}`);
+    return null;
+  }
+
+  // countdown to rest motivation
+  if (
+    current.mode === Mode.ACTIVE &&
     state.actionTime === 3 &&
-    Math.random() > 0.75
+    Math.random() > 0.8
   ) {
     if (Math.random() > 0.5) {
-      rust.play();
+      motivation.play(Sound.rust);
     } else {
-      nog_even.play();
+      motivation.play(Sound.nog_even);
     }
-
     return null;
   }
 
+  // countdown to active motivation
   if (
-    !active &&
+    current.mode === Mode.PASSIVE &&
     state.actionTime === 3 &&
-    Math.random() > 0.7
+    Math.random() > 0.8
   ) {
-    karamba.play();
-
+    motivation.play(Sound.karamba);
     return null;
   }
 
-  if (state.actionTime < 4 && !playing() && current.mode !== Mode.REST) {
-    beep(
-      150,
-      active ? 300 : 400,
-    );
-  }
-
-  if ((state.actionTime === 4 || state.actionTime === 0) && !playing() && current.mode === Mode.REST) {
-    beep(100, 300, 0);
-    beep(100, 300, 300);
-    beep(100, 300, 600);
-    beep(100, 300, 900);
-  }
-
+  // countdown to active / passive
   if (
-    active &&
-    state.actionTime > 5 &&
-    state.actionTime < current.duration - 2 &&
-    !playing() &&
-    Math.random() > 0.96
+    state.actionTime < 4 &&
+    !motivation.playing() &&
+    current.mode !== Mode.REST
   ) {
-    shuffleArray(currentMotivation);
-    currentMotivation.pop().play();
-
-    if (currentMotivation.length === 0) {
-      currentMotivation = motivation.slice();
-    }
-  } else if (
-    active &&
-    state.actionTime > 5 &&
-    state.actionTime < current.duration - 2 &&
-    !playing() &&
-    Math.random() > 0.98
-  ) {
-    shuffleArray(currentWeirdStuff);
-    currentWeirdStuff.pop().play();
-
-    if (currentWeirdStuff.length === 0) {
-      currentWeirdStuff = motivation.slice();
+    if (current.mode === Mode.ACTIVE) {
+      beep.bop();
+    } else if (current.mode === Mode.PASSIVE) {
+      beep.bep();
     }
   }
 
-  // half time
+  // motivational noises
   if (
-    active &&
-    state.actionTime === (Math.round(current.duration / 2))
+    current.mode === Mode.ACTIVE &&
+    state.actionTime > 5 &&
+    state.actionTime < current.duration - 2 &&
+    !motivation.playing()
   ) {
-    beep(50, 700, 0);
-    beep(50, 700, 400);
+    if (Math.random() > 0.96) {
+      motivation.playRandom(SoundType.motivation);
+    } else if (Math.random() > 0.98) {
+      motivation.playRandom(SoundType.weird);
+    }
   }
 
   return null;
