@@ -17,7 +17,7 @@ class Beep {
     const oscillator = this.ctx.createOscillator();
     const gainNode = this.ctx.createGain();
 
-    gainNode.gain.value = 0.4;
+    gainNode.gain.value = 0.3;
 
     oscillator.connect(gainNode);
     gainNode.connect(this.ctx.destination);

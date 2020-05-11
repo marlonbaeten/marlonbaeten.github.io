@@ -68,6 +68,7 @@ export class Motivation {
           // @ts-ignore
           require('../audio/motivation.ac3'),
         ],
+        volume: 0.7,
         sprite: {
           [Sound.aiaia]: [
             0,

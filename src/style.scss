@@ -10,6 +10,34 @@ html {
   @media (max-width: 800px) {
     font-size: 18px;
   }
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 520px) {
+    font-size: 12px;
+  }
+
+  @media (max-width: 440px) {
+    font-size: 11px;
+  }
+
+  @media (max-width: 420px) {
+    font-size: 10px;
+  }
+
+  @media (max-width: 380px) {
+    font-size: 9px;
+  }
+
+  @media (max-width: 330px) {
+    font-size: 8px;
+  }
+
+  @media (max-width: 290px) {
+    font-size: 7px;
+  }
 }
 
 @keyframes colorchange {
@@ -24,14 +52,6 @@ html {
   }
 }
 
-html, body, #root {
-  min-width: 700px;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
 body, button, input, textarea {
   font-family: 'Press Start 2P', cursive;
 }
@@ -41,6 +61,10 @@ div {
 }
 
 .page {
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background-color: #A965FC;
@@ -80,7 +104,8 @@ h2 {
 
     label {
       padding-left: 0.5rem;
-      width: 10rem;
+      width: 8rem;
+      min-width: 8rem;
       font-size: 0.8rem;
       line-height: 2rem;
     }
@@ -123,10 +148,12 @@ h2 {
     }
 
     button {
+      display: block;
       background-color: rgba($shade, 0.9);
       border: 0;
       padding: 0.25rem 0.5rem;
       cursor: pointer;
+      font-size: 1rem;
 
       &:hover {
         background-color: rgba($shade, 0.8);
