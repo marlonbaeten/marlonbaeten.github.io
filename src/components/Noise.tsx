@@ -99,9 +99,9 @@ export default function Noise({ state }: { state: AppState }) {
     state.actionTime < current.duration - 2 &&
     !motivation.playing()
   ) {
-    if (Math.random() > 0.96) {
+    if (Math.random() > 0.95) {
       motivation.playRandom(SoundType.motivation);
-    } else if (Math.random() > 0.98) {
+    } else if (Math.random() > 0.99) {
       motivation.playRandom(SoundType.weird);
     }
   }
