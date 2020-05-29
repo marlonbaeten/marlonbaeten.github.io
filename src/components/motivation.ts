@@ -25,8 +25,8 @@ export enum Sound {
 }
 
 export enum SoundType {
-  motivation,
-  weird,
+  motivation = 'motivation',
+  weird = 'weird',
 }
 
 export class Motivation {
@@ -136,9 +136,10 @@ export class Motivation {
     return this.howl.playing();
   }
 
-  play(name: Sound) {
+  play(name: Sound, rate: number = 1) {
     this.load();
-    return this.howl.play(name);
+    this.howl.play(name);
+    this.howl.rate(rate);
   }
 
   playRandom(type: SoundType) {
@@ -148,7 +149,8 @@ export class Motivation {
 
     shuffleArray(this.currentRandom[type]);
     const name: Sound = this.currentRandom[type].pop();
-    this.play(name);
+    const rate = 0.75 + (Math.random() * 0.5);
+    this.play(name, rate);
   }
 }
 
