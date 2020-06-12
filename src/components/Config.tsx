@@ -34,6 +34,22 @@ export default function Config({ state, dispatch }) {
           }}
         />
       </div>
+      <div className="group check">
+        <label htmlFor="random">
+          <input
+            type="checkbox"
+            id="random"
+            checked={state.random}
+            onChange={(e) => {
+              dispatch({
+                type: ActionType.UPDATE,
+                random: !state.random,
+              })
+            }}
+          />
+          Tombolalatraining
+        </label>
+      </div>
       <div className="group">
         <label htmlFor="sets">Sets</label>
         <input

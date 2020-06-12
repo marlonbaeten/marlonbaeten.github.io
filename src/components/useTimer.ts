@@ -17,6 +17,7 @@ const initialState = {
   sets: 20,
   exercises: [],
   rest: 240,
+  random: false,
   rounds: 3,
   totalTime: 0,
   totalCountdown: 0,
@@ -55,6 +56,7 @@ export interface AppState {
   passive: number,
   sets: number,
   rest: number,
+  random: boolean,
   rounds: number
   running: boolean,
   done: boolean,
@@ -87,6 +89,11 @@ function reducer(state, action) {
       for (let round = 1; round <= state.rounds; round += 1) {
         for (let set = 1; set <= state.sets; set += 1) {
           let exercise = state.exercises[set - 1];
+
+          if (state.random) {
+            exercise = state.exercises[Math.floor(Math.random() * state.exercises.length)];
+          }
+
           let duration = state.active;
           if (timeSpec.test(exercise)) {
             const result = timeSpec.exec(exercise);
@@ -181,6 +188,7 @@ export default function useTimer(): { state: AppState, dispatch: Dispatch<object
     passive: state.passive,
     sets: state.sets,
     rest: state.rest,
+    random: state.random,
     rounds: state.rounds,
     exercises: state.exercises,
   };
